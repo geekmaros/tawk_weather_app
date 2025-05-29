@@ -1,0 +1,19 @@
+@use '@/assets/styles/abstracts/variables' as *;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body, h1, h2, h3, p, ul, ol, figure {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: $font-size-base;
+  line-height: 1.5;
+  background-color: #fff;
+  color: $color-dark;
+}
