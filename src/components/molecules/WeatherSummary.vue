@@ -64,6 +64,7 @@ const goBack = () => {
       <p class="weather-summary__updated">
         <span>Last Update {{ lastUpdatedValue }}</span>
         <BaseIconButton
+          @click="$emit('refresh')"
           class="weather-summary__updated--refresh"
           icon="IconRefresh"
           variant="icon"
