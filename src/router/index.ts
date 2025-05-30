@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import IndexPage from '@/pages/IndexPage.vue'
+import CityListPage from '@/pages/CityListPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,7 +7,17 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: IndexPage,
+      component: CityListPage,
+    },
+    {
+      path: '/weather/:city',
+      name: 'WeatherDetailPage',
+      component: () => import('@/pages/WeatherDetailPage.vue'),
+      props: (route) => ({
+        city: route.params.city,
+        lat: route.query.lat,
+        lon: route.query.lon,
+      }),
     },
     // {
     //   path: '/about',
