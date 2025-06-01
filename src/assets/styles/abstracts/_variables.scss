@@ -3,6 +3,7 @@ $color-primary: #1e40af;
 $color-secondary: #f59e0b;
 $color-light: #f3f4f6;
 $color-dark: #111827;
+$color-forecaset: #201C1C;
 
 // Typography
 $font-base: 'SF Pro Display', sans-serif;
@@ -19,3 +20,19 @@ $spacing-xl: 4rem;
 $radius-sm: 4px;
 $radius-md: 8px;
 $radius-lg: 12px;
+
+
+//forecast temp
+
+$font-weight-semi-bold: 600;
+$font-size-sm: 14px;
+$line-height-tight: 100%;
+$letter-spacing-normal: 0%;
+
+.forecast__temp {
+  font-weight: $font-weight-semi-bold;
+  font-size: $font-size-sm;
+  line-height: $line-height-tight;
+  letter-spacing: $letter-spacing-normal;
+  color: $color-forecaset;
+}
