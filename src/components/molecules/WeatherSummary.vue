@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import WeatherIcon from '@/components/atoms/WeatherIcon.vue'
-import { formatTime, getTodayFormattedDate } from '@/utils/formatters'
-import { computed } from 'vue'
+import { getTodayFormattedDate } from '@/utils/formatters'
 import BaseIconButton from '@/components/atoms/BaseIconButton.vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { getCountryName } from '@/utils/helpers.ts'
+import { computed } from 'vue'
+import { useSavedWeather } from '@/composables/useSavedWeather.ts'
+import type { SavedWeatherItem } from '@/types/weather.ts'
 
 // const route = useRoute()
 const router = useRouter()
+
+const { isSaved, addSaved, removeSaved } = useSavedWeather()
 
 const props = defineProps<{
   city: string
@@ -16,19 +20,30 @@ const props = defineProps<{
   iconCode: string
   description: string
   lastUpdated: string | number | Date
+  lat: number
+  lon: number
 }>()
 
-const lastUpdatedValue = computed(() => {
-  if (typeof props.lastUpdated === 'number') {
-    return formatTime(props.lastUpdated * 1000)
+const emit = defineEmits<{
+  (e: 'refresh'): void
+}>()
+
+const isItemSaved = computed(() => isSaved(props.lat, props.lon))
+
+const toggleSave = () => {
+  const item: SavedWeatherItem = {
+    city: props.city,
+    countryCode: props.countryCode,
+    lat: props.lat,
+    lon: props.lon,
   }
 
-  if (props.lastUpdated instanceof Date) {
-    return formatTime(props.lastUpdated)
+  if (isItemSaved.value) {
+    removeSaved(props.lat, props.lon)
+  } else {
+    addSaved(item)
   }
-
-  return ''
-})
+}
 
 const goBack = () => {
   router.back()
@@ -44,27 +59,26 @@ const goBack = () => {
         >{{ city }}, {{ getCountryName(countryCode) }}</span
       >
 
-      <BaseIconButton icon="IconPlus" aria-label="add location to favourite" variant="icon" />
+      <BaseIconButton
+        :icon="isItemSaved ? 'IconDelete' : 'IconPlus'"
+        aria-label="add location to favourite"
+        variant="icon"
+        @click="toggleSave"
+      />
     </div>
 
     <div class="weather-summary__content">
       <p class="weather-summary__date">{{ getTodayFormattedDate() }}</p>
 
-      <WeatherIcon
-        :iconCode="iconCode"
-        :width="74"
-        :height="74"
-        size="4x"
-        class="weather-summary__icon"
-      />
+      <WeatherIcon :iconCode="iconCode" size="4x" class="weather-summary__icon" />
 
       <p class="weather-summary__temperature">{{ Math.round(temperature) }}° C</p>
       <p class="weather-summary__description">{{ description }}</p>
 
       <p class="weather-summary__updated">
-        <span>Last Update {{ lastUpdatedValue }}</span>
+        <span>Last Update {{ lastUpdated }}</span>
         <BaseIconButton
-          @click="$emit('refresh')"
+          @click="emit('refresh')"
           class="weather-summary__updated--refresh"
           icon="IconRefresh"
           variant="icon"

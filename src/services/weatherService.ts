@@ -1,8 +1,11 @@
 import type { WeatherData, ForecastData } from '@/types/weather.ts'
 // import type { ApiResponse } from '@/types/api.ts'
 import { apiGet, retryRequest } from '../utils/apiWrapper'
+import { mockCurrentWeather } from '../../data/mockCurrentWeather.ts'
+import { mockForecastWeather } from '../../data/mockForecastWeather.ts'
 
 const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY
+const WEATHER_BASE = '/data/2.5'
 
 const defaultParams = {
   appid: API_KEY,
@@ -11,7 +14,7 @@ const defaultParams = {
 
 export const getCurrentWeather = async (city: string): Promise<WeatherData> => {
   const response = await retryRequest(() =>
-    apiGet<WeatherData>('/weather', {
+    apiGet<WeatherData>(`${WEATHER_BASE}/weather`, {
       q: city,
       ...defaultParams,
     }),
@@ -21,10 +24,11 @@ export const getCurrentWeather = async (city: string): Promise<WeatherData> => {
 }
 
 export const getWeatherByCoords = async (lat: number, lon: number): Promise<WeatherData> => {
+  // return mockCurrentWeather
   const response = await retryRequest(() =>
-    apiGet<WeatherData>('/weather', {
-      lat: lat.toString(),
-      lon: lon.toString(),
+    apiGet<WeatherData>(`${WEATHER_BASE}/weather`, {
+      lat: lat,
+      lon: lon,
       ...defaultParams,
     }),
   )
@@ -34,7 +38,7 @@ export const getWeatherByCoords = async (lat: number, lon: number): Promise<Weat
 
 export const getForecast = async (city: string): Promise<ForecastData> => {
   const response = await retryRequest(() =>
-    apiGet<ForecastData>('/forecast', {
+    apiGet<ForecastData>(`${WEATHER_BASE}/forecast`, {
       q: city,
       ...defaultParams,
     }),
@@ -44,10 +48,11 @@ export const getForecast = async (city: string): Promise<ForecastData> => {
 }
 
 export const getForecastByCoords = async (lat: number, lon: number): Promise<ForecastData> => {
+  // return mockForecastWeather
   const response = await retryRequest(() =>
-    apiGet<ForecastData>('/forecast', {
-      lat: lat.toString(),
-      lon: lon.toString(),
+    apiGet<ForecastData>(`${WEATHER_BASE}/forecast`, {
+      lat: lat,
+      lon: lon,
       ...defaultParams,
     }),
   )

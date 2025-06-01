@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import CityListPage from '@/pages/CityListPage.vue'
+import EditProfilePage from '@/pages/EditProfilePage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,6 +19,12 @@ const router = createRouter({
         lat: route.query.lat,
         lon: route.query.lon,
       }),
+    },
+
+    {
+      path: '/profile',
+      name: 'EditProfilePage',
+      component: () => import('@/pages/EditProfilePage.vue'),
     },
     // {
     //   path: '/about',

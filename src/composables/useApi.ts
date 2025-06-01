@@ -29,7 +29,9 @@ export const useApi = <T, TArgs extends readonly unknown[]>(
     } catch (err) {
       const apiError = err as ApiError
       error.value = apiError
-      console.error('API call failed:', getErrorMessage(apiError))
+      const message = getErrorMessage(apiError)
+      console.error('API call failed:', message)
+
       return null
     } finally {
       loading.value = false

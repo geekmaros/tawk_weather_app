@@ -1,10 +1,11 @@
 import axios from 'axios'
 import type { AxiosInstance, AxiosResponse } from 'axios'
-import { handleApiError } from './errorHandler'
+import { handleApiError, getErrorMessage } from './errorHandler'
+import { toast } from 'vue-sonner'
 
 const createAxiosInstance = (): AxiosInstance => {
   const instance = axios.create({
-    baseURL: 'https://api.openweathermap.org/data/2.5',
+    baseURL: 'https://api.openweathermap.org',
     timeout: 10000, // 10 seconds
     headers: {
       'Content-Type': 'application/json',
@@ -35,6 +36,9 @@ const createAxiosInstance = (): AxiosInstance => {
     },
     (error) => {
       const apiError = handleApiError(error)
+      const message = getErrorMessage(apiError)
+
+      toast.error(message)
       return Promise.reject(apiError)
     },
   )

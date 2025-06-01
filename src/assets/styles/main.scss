@@ -1,0 +1,14 @@
+@use '@/assets/styles/abstracts/variables' as *;
+@use '@/assets/styles/abstracts/breakpoints' as *;
+
+
+@use '@/assets/styles/base/reset' as *;
+.base-card.base-card--clickable.weather-card.day.city-weather-list__card {
+  cursor: pointer;
+}
+.base-card.base-card--clickable.weather-card.night.city-weather-list__card {
+  cursor: pointer;
+}
+
+
+
