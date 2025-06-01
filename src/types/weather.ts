@@ -65,6 +65,51 @@ export interface ForecastData {
   }
 }
 
+export interface HourlyForecastItem {
+  id?: number
+  icon: string
+  temperature: number
+  time: string
+}
+
+export interface WeeklyForecastItem {
+  id: number
+  day: string
+  icon: string
+  temperature: number
+  description: string
+}
+
+export interface UserWeather {
+  id: number
+  name: string
+  weather: Array<{
+    id: number
+    main: string
+    description: string
+    icon: string
+  }>
+  main: {
+    temp: number
+    temp_min: number
+    temp_max: number
+    feels_like: number
+    pressure: number
+    humidity: number
+  }
+  sys: {
+    country: string
+  }
+  dt: number
+}
+
+export interface SavedWeatherItem {
+  city: string
+  countryCode: string
+  lat: number
+  lon: number
+}
+
 export interface WeatherRequestParams {
   q?: string
   lat?: string
