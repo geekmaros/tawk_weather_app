@@ -11,7 +11,7 @@
     <div class="weather-card__info">
       <div>
         <h3 class="weather-card__location">{{ location }}</h3>
-        <p class="weather-card__subtitle">{{ time }}</p>
+        <p class="weather-card__subtitle">{{ localTime }}</p>
       </div>
       <div>
         <p class="weather-card__temp">{{ temperature }}°</p>
@@ -39,6 +39,7 @@ const props = defineProps<{
   high: number
   low: number
   dt: number
+  timezone: number
 }>()
 
 const smartCapitalize = (text: string) => {
@@ -51,9 +52,18 @@ const smartCapitalize = (text: string) => {
   return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase()
 }
 
+const localTime = computed(() => {
+  const localTimestamp = (props.dt + props.timezone) * 1000
+  const date = new Date(localTimestamp)
+  return date.toLocaleTimeString('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+})
+
 const isNight = computed(() => {
-  const hour = new Date(props.dt * 1000).getHours()
-  return hour < 6 || hour >= 18 // 6 PM to 6 AM is considered night
+  const hour = new Date((props.dt + props.timezone) * 1000).getHours()
+  return hour < 6 || hour >= 18
 })
 </script>
 

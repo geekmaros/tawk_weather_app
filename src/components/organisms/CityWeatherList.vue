@@ -10,6 +10,7 @@
       :high="city.high"
       :low="city.low"
       :dt="city.dt"
+      :timezone="city.timezone"
       @click="handleClick(city)"
       class="city-weather-list__card"
     />
@@ -28,6 +29,7 @@ defineProps<{
     high: number
     low: number
     dt: number
+    timezone: number
   }[]
 }>()
 

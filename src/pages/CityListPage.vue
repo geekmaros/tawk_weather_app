@@ -65,6 +65,7 @@ const formattedCities = computed(() =>
     lat: w.coord.lat,
     lon: w.coord.lon,
     dt: w.dt,
+    timezone: w.timezone,
   })),
 )
 
