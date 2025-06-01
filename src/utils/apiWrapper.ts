@@ -10,6 +10,9 @@ import { sleep } from '@/utils/helpers.ts'
 type QueryParams = Record<string, string | number | boolean | undefined>
 type RequestBody = Record<string, unknown> | FormData | string | number | boolean | null
 
+const weatherEndpoint = (path: string) => `/data/2.5${path}`
+const geoEndpoint = (path: string) => `/geo/1.0${path}`
+
 export const apiGet = async <TResponse>(
   url: string,
   params?: QueryParams,
@@ -169,10 +172,10 @@ const toQueryParams = (params: WeatherRequestParams | ForecastRequestParams): Qu
 
 // Type-safe weather API functions
 export const getWeatherWithParams = (params: WeatherRequestParams) =>
-  apiGet<WeatherData>('/weather', toQueryParams(params))
+  apiGet<WeatherData>(weatherEndpoint('/weather'), toQueryParams(params))
 
 export const getForecastWithParams = (params: ForecastRequestParams) =>
-  apiGet<ForecastData>('/forecast', toQueryParams(params))
+  apiGet<ForecastData>(weatherEndpoint('/forecast'), toQueryParams(params))
 
 // Generic API response handler with better error typing
 export const handleApiResponse = async <TResponse>(
